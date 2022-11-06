@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.joaotozzi.chordnotepadapi.dto.CifraDTO;
 import br.com.joaotozzi.chordnotepadapi.form.CifraForm;
@@ -24,6 +25,7 @@ import br.com.joaotozzi.chordnotepadapi.model.Cifra;
 import br.com.joaotozzi.chordnotepadapi.repository.CifraRepository;
 import br.com.joaotozzi.chordnotepadapi.utils.TonalidadeUtils;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/cifras")
 public class CifraController {
