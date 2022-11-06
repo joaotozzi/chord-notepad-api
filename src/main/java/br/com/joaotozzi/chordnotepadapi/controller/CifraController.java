@@ -40,7 +40,7 @@ public class CifraController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<CifraDTO> consultar(@PathVariable Long id, @RequestParam String tom){
+	public ResponseEntity<CifraDTO> consultar(@PathVariable Long id, @RequestParam(required = false) String tom){
 		Optional<Cifra> optional = cifraRepository.findById(id);
 		if(optional.isPresent()) {
 			
