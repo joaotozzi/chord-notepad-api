@@ -46,7 +46,7 @@ public class CifraController {
 			
 			Cifra cifra = optional.get();
 			
-			if(!tom.isBlank()) {
+			if(tom != null) {
 				cifra.setConteudo(TonalidadeUtils.mudarTom(cifra.getConteudo(), cifra.getTomOriginal(), tom));
 			}
 			
