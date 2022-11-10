@@ -1,6 +1,7 @@
 package br.com.joaotozzi.chordnotepadapi.controller;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import br.com.joaotozzi.chordnotepadapi.dto.CifraDTO;
+import br.com.joaotozzi.chordnotepadapi.dto.NovoTomDTO;
 import br.com.joaotozzi.chordnotepadapi.form.CifraForm;
 import br.com.joaotozzi.chordnotepadapi.model.Cifra;
 import br.com.joaotozzi.chordnotepadapi.repository.CifraRepository;
@@ -35,7 +37,7 @@ public class CifraController {
 	
 	@GetMapping
 	public List<CifraDTO> listar(){
-		List<Cifra> cifras = cifraRepository.findAll();
+		List<Cifra> cifras = cifraRepository.findAllByOrderByUltimaModificacaoDesc();
 		return cifras.stream().map(CifraDTO::new).collect(Collectors.toList());
 	}
 	
@@ -51,6 +53,25 @@ public class CifraController {
 			}
 			
 			return ResponseEntity.ok(new CifraDTO(optional.get()));
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@PutMapping("/{id}/transposicao")
+	public ResponseEntity<CifraDTO> alterarTom (@PathVariable Long id, @RequestBody NovoTomDTO novoTomDTO){
+		Optional<Cifra> optional = cifraRepository.findById(id);
+		if(optional.isPresent()) {
+			
+			Cifra cifra = optional.get();
+			
+			if(novoTomDTO.getNovoTom() != null) {
+				cifra.setConteudo(TonalidadeUtils.mudarTom(cifra.getConteudo(), cifra.getTomOriginal(), novoTomDTO.getNovoTom()));
+				cifra.setTomOriginal(novoTomDTO.getNovoTom());
+				cifra.setUltimaModificacao(LocalDateTime.now());
+				cifraRepository.save(cifra);
+			}
+			
+			return ResponseEntity.ok(new CifraDTO(cifra));
 		}
 		return ResponseEntity.notFound().build();
 	}
