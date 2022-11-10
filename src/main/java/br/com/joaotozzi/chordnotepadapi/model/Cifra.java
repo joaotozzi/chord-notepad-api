@@ -1,5 +1,7 @@
 package br.com.joaotozzi.chordnotepadapi.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Cifra {
 	private String compositor;
 	private String tomOriginal;
 	private String conteudo;
+	private LocalDateTime ultimaModificacao;
 	
 	public Cifra() {}
 	
@@ -24,8 +27,19 @@ public class Cifra {
 		this.compositor = cifraForm.getCompositor();
 		this.tomOriginal = cifraForm.getTomOriginal();
 		this.conteudo = cifraForm.getConteudo();
+		this.ultimaModificacao =  LocalDateTime.now();
 	}
 	
+	
+	
+	public LocalDateTime getUltimaModificacao() {
+		return ultimaModificacao;
+	}
+
+	public void setUltimaModificacao(LocalDateTime ultimaModificacao) {
+		this.ultimaModificacao = ultimaModificacao;
+	}
+
 	public Long getId() {
 		return id;
 	}
